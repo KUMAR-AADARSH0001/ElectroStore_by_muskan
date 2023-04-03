@@ -1,0 +1,339 @@
+{% extends "dashboard.html" %} {% load static %} {% block content %}
+<style>
+  .spinnerouter {
+    background: rgb(0, 0, 0, 0.5);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    top: 0px;
+    display: none;
+  }
+  .loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid rgb(60, 67, 164); /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    left: 45%;
+    top: 45%;
+    z-index: 999999;
+  }
+  .spinner-border {
+    height: 25px;
+    width: 25px;
+    border: 5px solid white;
+    border-top: 5px solid #f0ad4e;
+    animation: spin 1s linear infinite;
+    border-radius: 50%;
+    margin: auto;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  table,
+  td {
+    color: black !important;
+  }
+</style>
+<div class="spinnerouter">
+  <div class="loader"></div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      {% if messages %} {% for i in messages %}
+      <div class="alert alert-{{i.tags}} status">{{i}}</div>
+      {% endfor %} {% endif %}
+    </div>
+
+    <div class="col-md-12" style="" id="empty">
+      {% if cart_size is 0 %}
+      <h2>❌ Your Shopping Cart is Empty</h2>
+      {% else %}
+    </div>
+    {% if user.is_authenticated %} {% if user.is_superuser %}
+    <div class="col-md-12">
+      <h2>Sorry as you are admin, You are not allowed here!!!</h2>
+    </div>
+    {% else %}
+    <div class="col-md-7">
+      <h2>My Cart(<span id="csize">{{cart_size}}</span> )</h2>
+      <hr />
+      <ul class="list-group">
+        {% for i in cart %}
+        <li
+          class="list-group-item c-{{i.id}}"
+          style="box-shadow: 0px 0px 10px black"
+        >
+          <div class="row">
+            <div class="col-md-3" style="text-align: center; font-size: 30px">
+              <span>
+                <img
+                  src="/media/{{i.photo}}"
+                  style="border-radius: 50%; margin: 10px"
+                  height="70"
+                  width="70"
+                  class="rounded-circle"
+                />
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-3 col-sm-3 col-3">
+                      <span onclick="addNum('{{i.id}}','add')">
+                        <i class="fas fa-plus-circle text-success"></i>
+                      </span>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                      <input
+                        type="number"
+                        id="num"
+                        value="{{i.quantity}}"
+                        class="form-control num{{i.id}}"
+                      />
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-3">
+                      <span onclick="addNum('{{i.id}}','sub')">
+                        <i class="fas fa-minus-circle text-danger"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </span>
+            </div>
+            <div class="col-md-9">
+              <span class="text-danger font-weight-bold">
+                <strong>{{i.product_name}}</strong><br />
+                |{{i.product_cat}} | {{i.brand}}
+              </span>
+              <h4 style="margin-top: 20px">
+                <strong class="text-success cartsaleprice{{i.id}}"
+                  >&#8377;{{i.price}}</strong
+                >
+                <del style="font-size: 12px" class="cartprice{{i.id}}">
+                  &#8377; {{i.market}}</del
+                >
+                <span style="color: green; font-family: arial"
+                  >You save {{i.offer}}%</span
+                >
+              </h4>
+            </div>
+          </div>
+          <hr />
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-md-4">
+      {% if cart_size is not 0 %}
+      <h2>Price Details</h2>
+      <hr />
+      <div style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td id="itotal">ITEM TOTAL</td>
+              <td id="total"></td>
+            </tr>
+            <tr style="border-bottom: 1px dotted gray">
+              <td>DELIVERY CHARGES</td>
+              <td>FREE</td>
+            </tr>
+            <tr>
+              <td><strong>GRAND TOTAL</strong></td>
+              <td id="grand"></td>
+            </tr>
+          </tbody>
+        </table>
+        <hr />
+        <div style="padding: 10px; display: none" id="delivery_address">
+          <h4>Enter Delivery Details</h4>
+          <hr />
+
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Name"
+              id="dname"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <!-- <label for="" id='res'></label> -->
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Enter Email Address"
+              id="demail"
+              required
+            />
+          </div>
+          <!-- <div class='form-group' style='display:none;'>
+                                <input type="number" class='form-control' placeholder='Enter OTP Here' id='id_enter_otp'>
+                            </div> -->
+          <div class="form-group">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Enter Mobile Number"
+              id="dnumber"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <textarea
+              name="daddress"
+              id="daddress"
+              class="form-control"
+              placeholder="Enter Full Address"
+              required
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <input type="hidden" id="grandtotal" />
+            <input type="hidden" id="items" value="{{cids}}" />
+            <button class="btn btn-success btn-block" id="ptp">
+              Proceed To Pay
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-warning btn-block" id="ptb">
+          <i class="fas fa-shopping-cart"></i> Proceed To Buy
+        </button>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %} {% endif %} {% endif %}
+  </div>
+</div>
+<script>
+  function addNum(id, action) {
+    $(".spinnerouter").show();
+    let v = $(".num" + id).val();
+    let updateQuant = 0;
+    if (action == "add") {
+      updateQuant = parseInt(v) + 1;
+    } else {
+      updateQuant = parseInt(v) - 1;
+    }
+    setTimeout(function () {
+      $.ajax({
+        url: '{% url "myapp:cart" %}',
+        type: "get",
+        data: { q: updateQuant, id: id },
+        success: function (data) {
+          $(".num" + id).val(data.quantity);
+          $(".cartsaleprice" + id).html(data.sale_price * data.quantity);
+          $(".cartprice" + id).html(data.price * data.quantity);
+          $(".spinnerouter").hide();
+          $("#csize").html(data.cart_size);
+          grandTotal();
+
+          // #Remove Items
+          if (data.quantity == 0) {
+            $.ajax({
+              url: '{% url "myapp:removecart" %}',
+              data: { removeid: id },
+              success: function (data) {
+                $(".c-" + id).hide();
+                $(".status").html(data.msz);
+                $("#csize").html(data.cart_size);
+              },
+            });
+          }
+        },
+      });
+    });
+  }
+</script>
+
+<script>
+  let email;
+  function grandTotal() {
+    $.ajax({
+      url: '{% url "myapp:grandTotal" %}',
+      success: function (data) {
+        $("#itotal").html("ITEM TOTAL (" + data.quantity + ")");
+        $("#total").html("&#8377;" + data.grand_total);
+        $("#grand").html("&#8377;" + data.grand_total);
+        $("#demail").val(data.email);
+        $("#dname").val(data.name);
+        $("#daddress").val(data.address);
+        $("#grandtotal").val(data.grand_total);
+        $("#ptp").html("Proceed To Pay &#8377;" + data.grand_total);
+      },
+    });
+  }
+  grandTotal();
+</script>
+<script>
+  $("#ptb").click(function () {
+    $(this).html('<div class="spinner-border"></div>');
+    setTimeout(function () {
+      $("#delivery_address").slideDown(1000);
+      $("#ptb").hide();
+    }, 1500);
+  });
+</script>
+
+<!-- VERIFICATION EMAIL -->
+<script>
+  var arr = [];
+  $("#dnu").focus(function () {
+    var name = $("#dname").val();
+    var email = $("#demail").val();
+    $.ajax({
+      url: '{% url "myapp:sendMail"%}',
+      data: { name: name, email: email },
+      success: function (data) {
+        arr = data.split("@");
+        $("#res").html(arr[0]).addClass("text-success");
+        $("#id_enter_OTP").show();
+      },
+    });
+  });
+</script>
+
+<script>
+  $("#ptp").click(function () {
+    let dname = $("#dname").val();
+    let demail = $("#demail").val();
+    let daddr = $("#daddress").val();
+    let dcon = $("#dnumber").val();
+    let amount = $("#grandtotal").val();
+    let it = $("#items").val();
+    $.ajax({
+      url: '{% url "myapp:get_order"%}',
+      type: "get",
+      data: {
+        grandtotal: amount,
+        dname: dname,
+        demail: demail,
+        daddress: daddr,
+        dnumber: dcon,
+        items: it,
+      },
+      success: function (data) {
+        let oid =
+          parseInt(data) + Math.round(Math.random() * (9999 - 1000) + 1000);
+        url =
+          "http://sachtechsolution.pe.hu/easypayment/payment.php?mid=qHwSXt13054106235849&amount=" +
+          amount +
+          "&adminemail=amandeepit02@gmail.com&adminmobile=7837494347&mkey=g3iLvlGhNj4Iahwo&orderid=" +
+          data +
+          "o" +
+          oid +
+          '&returnurl=http://127.0.0.1:8000{% url "myapp:success_payment" %}';
+        window.location = url;
+      },
+    });
+  });
+</script>
+{% endblock %}

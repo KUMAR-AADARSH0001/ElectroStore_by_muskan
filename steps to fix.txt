@@ -1,0 +1,3 @@
+first fix SHOP NOW button(use shop now button in about us )
+then top brands images
+then fix sign up button

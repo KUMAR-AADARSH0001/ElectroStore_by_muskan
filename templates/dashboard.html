@@ -1,0 +1,57 @@
+{% extends "base.html"%} {% load static%} {% block style %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}" />
+<link rel="stylesheet" href="{% static 'mystyle.css'%}" />
+
+{% endblock %} {% block body %}
+<div class="container-fluid" style="overflow-x: hidden">
+  <div class="row">
+    <div class="col-md-2">
+      {% if user.is_authenticated %} {% if user.is_superuser %} {% else %}
+      <div class="ab pt-2">
+        <img
+          src="/media/{{pp.profile_pic}}"
+          class="dash-img"
+          style="height: 80px; width: 80px; border-radius: 50%"
+        />
+        <p>
+          <a href="{% url 'myapp:profile'%}">
+            {{pp.subtitle}} {{user.first_name}}</a
+          >
+        </p>
+      </div>
+      <div class="ab list-group">
+        <h4 class="title">
+          <i class="far fa-address-card"></i> Manage Profile
+        </h4>
+        <a href="{% url 'myapp:profile'%}" class="list-group-item dash"
+          >My Profile</a
+        >
+        <a href="{% url 'myapp:change_profile' %}" class="list-group-item dash"
+          >Change Profile</a
+        >
+        <a href="{% url 'myapp:change_password' %}" class="list-group-item dash"
+          >Change Password</a
+        >
+      </div>
+      <div class="ab">
+        <h4 class="title"><i class="fas fa-cart-arrow-down"></i> My Orders</h4>
+        <a href="{% url 'myapp:orders'%}" class="list-group-item dash"
+          >Order History</a
+        >
+        <a href="{% url 'myapp:pending_orders'%}" class="list-group-item dash"
+          >Pending Orders</a
+        >
+      </div>
+      <div class="ab">
+        <h4 class="title">
+          <a href="{% url 'uslogout'%}" class="list-group-item dash"
+            ><i class="fas fa-sign-out-alt"></i> Logout</a
+          >
+        </h4>
+      </div>
+      {% endif %} {% endif %}
+    </div>
+    <div class="col-md-9" id="rcover">{% block content %} {% endblock %}</div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,520 @@
+{% extends 'base.html' %} {% load static %} {% block body %} {% if response %}
+<script>
+  alert("{{response}}");
+</script>
+{% endif %}
+<!-- banner -->
+<div class="banner">
+  <div class="container">
+    <h3>Electronic Store, <span>Special Offers</span></h3>
+  </div>
+</div>
+<!-- //banner -->
+<!-- banner-bottom -->
+<div class="banner-bottom">
+  <div class="container">
+    <div class="col-md-5 wthree_banner_bottom_left">
+      <div class="video-img">
+        <a class="play-icon popup-with-zoom-anim" href="#small-dialog">
+          <span class="glyphicon glyphicon-expand" aria-hidden="true"></span>
+        </a>
+      </div>
+      <!-- pop-up-box -->
+      <script
+        src="{% static 'js/jquery.magnific-popup.js'%}"
+        type="text/javascript"
+      ></script>
+      <!--//pop-up-box -->
+      <div id="small-dialog" class="mfp-hide">
+        <iframe src="https://www.youtube.com/embed/ZQa6GUVnbNM"></iframe>
+      </div>
+      <script>
+        $(document).ready(function () {
+          $("#Cameras-tab").click();
+          $(".popup-with-zoom-anim").magnificPopup({
+            type: "inline",
+            fixedContentPos: false,
+            fixedBgPos: true,
+            overflowY: "auto",
+            closeBtnInside: true,
+            preloader: false,
+            midClick: true,
+            removalDelay: 300,
+            mainClass: "my-mfp-zoom-in",
+          });
+        });
+      </script>
+    </div>
+    <div class="col-md-7 wthree_banner_bottom_right">
+      <div
+        class="bs-example bs-example-tabs"
+        role="tabpanel"
+        data-example-id="togglable-tabs"
+      >
+        <ul id="myTab" class="nav nav-tabs" role="tablist">
+          {% for i in cat %}
+          <li role="presentation" class="{% if i.id is 2%}active{% endif %}">
+            <a
+              href="#{{i.category_name}}"
+              id="{{i.category_name}}-tab"
+              role="tab"
+              data-toggle="tab"
+              aria-controls="{{i.category_name}}"
+              onclick="getproduct('{{i.category_name}}')"
+              >{{i.category_name}}</a
+            >
+          </li>
+          {% endfor %}
+        </ul>
+        <script>
+          function myfun(e) {
+            prid = e;
+            $.ajax({
+              url: '{% url "index" %}',
+              type: "get",
+              data: { prid: prid },
+              success: function (data) {
+                var check = data.description.search("@");
+                if (check == -1) {
+                  dsc = data.description;
+                } else {
+                  var dd = data.description.split("@");
+                  dsc = "";
+                  for (var i = 0; i < dd.length - 1; i++) {
+                    dsc += "<li>" + dd[i] + "</li>";
+                  }
+                }
+                $(".pimg").html(
+                  '<img src="/media/' +
+                    data.photo +
+                    '" alt="No Image" class="img-responsive" height="100%"/>'
+                );
+                $("#pname").html(data.name);
+                $("#pdes").html("<ul>" + dsc + "</ul>");
+                $("#pp").html(data.price);
+                $("#sp").html(data.sale_price);
+                $("#iprice").val(data.sale_price);
+                $("#item_id").val(data.id);
+              },
+            });
+          }
+        </script>
+        <script>
+          function getproduct(ab) {
+            $.ajax({
+              url: '{% url "index"%}',
+              type: "get",
+              data: { cat: ab },
+              success: function (data) {
+                aa = "";
+                for (i in data) {
+                  aa +=
+                    '<div class="col-md-4 agile_ecommerce_tab_left"><div class="hs-wrapper"><img src="media/' +
+                    data[i].photo +
+                    '" alt=" " class="img-responsive" style="height:100%;width:100%;"/><img src="media/' +
+                    data[i].photo +
+                    '" alt=" " class="img-responsive" style="height:100%;width:100%;"/><img src="media/' +
+                    data[i].photo +
+                    '" alt=" " class="img-responsive" style="height:100%;width:100%;"/><img src="media/' +
+                    data[i].photo +
+                    '" alt=" " class="img-responsive" style="height:100%;width:100%;"/><img src="media/' +
+                    data[i].photo +
+                    '" alt=" " class="img-responsive" style="height:100%;width:100%;"/><div class="w3_hs_bottom"><ul><li><a href="#" onclick="myfun(' +
+                    data[i].id +
+                    ')" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></li></ul></div></div><h5 style="height:80px;"><a href="{% url "myapp:singleproduct" %}?singlep=' +
+                    data[i].id +
+                    '">' +
+                    data[i].product_name +
+                    '</a></h5><div class="simpleCart_shelfItem"><p><span>&#8377;' +
+                    data[i].price +
+                    '</span> <i class="item_price">&#8377;' +
+                    data[i].sale_price +
+                    '</i></p><form action="{% url "myapp:cart"%}" method="post">{% csrf_token %}<input type="hidden" name="add" value="1" /><input type="hidden" name="item_id" value="' +
+                    data[i].id +
+                    '" /><input type="hidden" name="amount" value="' +
+                    data[i].sale_price +
+                    '" /><button type="submit" class="w3ls-cart">Add to cart</button></form></div></div>';
+                }
+                $(".agile_ecommerce_tabs").html(aa);
+              },
+            });
+          }
+        </script>
+        <div id="myTabContent" cla 0ss="tab-content">
+          <div
+            role="tabpanel"
+            class="tab-pane fade active in"
+            id="{{i.category_name}}"
+            aria-labelledby="{{i.category_name}}-tab"
+          >
+            <div class="agile_ecommerce_tabs">
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <!-- END REPEAT CODE		 -->
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+<!-- //banner-bottom -->
+<!-- modal-video -->
+<div
+  class="modal video-modal fade"
+  id="myModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModal"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <section>
+        <div class="modal-body">
+          <div class="col-md-5 modal_body_left pimg"></div>
+          <div class="col-md-7 modal_body_right">
+            <h4 id="pname"></h4>
+            <p id="pdes"></p>
+            <div class="rating">
+              <div class="rating-left">
+                <img
+                  src="{% static 'images/star-.png'%}"
+                  alt=" "
+                  class="img-responsive"
+                />
+              </div>
+              <div class="rating-left">
+                <img
+                  src="{% static 'images/star-.png'%}"
+                  alt=" "
+                  class="img-responsive"
+                />
+              </div>
+              <div class="rating-left">
+                <img
+                  src="{% static 'images/star-.png'%}"
+                  alt=" "
+                  class="img-responsive"
+                />
+              </div>
+              <div class="rating-left">
+                <img
+                  src="{% static 'images/star.png'%}"
+                  alt=" "
+                  class="img-responsive"
+                />
+              </div>
+              <div class="rating-left">
+                <img
+                  src="{% static 'images/star.png'%}"
+                  alt=" "
+                  class="img-responsive"
+                />
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="modal_body_right_cart simpleCart_shelfItem">
+              <p>
+                &#8377;<span id="pp"></span> <i class="item_price" id="sp"></i>
+              </p>
+              <form action='{% url "myapp:cart"%}' method="post">
+                {% csrf_token %}
+                <input type="hidden" name="item_id" id="item_id" />
+                <input type="hidden" name="w3ls_item" value="" id="pn" />
+                <input type="hidden" name="amount" id="iprice" value="" />
+                <input type="hidden" name="add" value="1" />
+                <button type="submit" class="w3ls-cart">Add to cart</button>
+              </form>
+            </div>
+            <h5>Color</h5>
+            <div class="color-quality">
+              <ul>
+                <li>
+                  <a href="#"><span></span></a>
+                </li>
+                <li>
+                  <a href="#" class="brown"><span></span></a>
+                </li>
+                <li>
+                  <a href="#" class="purple"><span></span></a>
+                </li>
+                <li>
+                  <a href="#" class="gray"><span></span></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- //modal-video -->
+<!-- banner-bottom1 -->
+<div class="banner-bottom1">
+  <div class="agileinfo_banner_bottom1_grids">
+    <div class="col-md-7 agileinfo_banner_bottom1_grid_left">
+      <h3>
+        Grand Opening Event With flat<span>20% <i>Discount</i></span>
+      </h3>
+      <a href="showproducts.html">Shop Now</a>
+    </div>
+    <div class="col-md-5 agileinfo_banner_bottom1_grid_right">
+      <h4>hot deal</h4>
+      <div class="timer_wrap">
+        <div id="counter"></div>
+      </div>
+      <script src="{% static 'js/jquery.countdown.js'%}"></script>
+      <script src="{% static 'js/script.js'%}"></script>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+<!-- //banner-bottom1 -->
+<!-- special-deals -->
+<div class="special-deals">
+  <div class="container">
+    <h2>Special Deals</h2>
+    <div class="w3agile_special_deals_grids">
+      <div class="col-md-7 w3agile_special_deals_grid_left">
+        <div class="w3agile_special_deals_grid_left_grid">
+          <img
+            src="{% static 'images/21.jpg' %}"
+            alt=" "
+            class="img-responsive"
+          />
+          <div class="w3agile_special_deals_grid_left_grid_pos1">
+            <h5>{{to}}%<span>Off/-</span></h5>
+          </div>
+          <div class="w3agile_special_deals_grid_left_grid_pos">
+            <h4>We Offer <span>Best Products</span></h4>
+          </div>
+        </div>
+        <div class="wmuSlider example1">
+          <div class="wmuSliderWrapper">
+            <article style="position: absolute; width: 100%; opacity: 0">
+              <div class="banner-wrap">
+                <div class="w3agile_special_deals_grid_left_grid1">
+                  <img
+                    src="{% static 'images/t1.png' %}"
+                    alt=" "
+                    class="img-responsive"
+                  />
+                  <p>
+                    People generally choose this place to buy clothes in a
+                    limited budget.Everyone must try!!!
+                  </p>
+                  <h4>Jenny</h4>
+                </div>
+              </div>
+            </article>
+            <article style="position: absolute; width: 100%; opacity: 0">
+              <div class="banner-wrap">
+                <div class="w3agile_special_deals_grid_left_grid1">
+                  <img
+                    src="{% static 'images/t2.png' %}"
+                    alt=" "
+                    class="img-responsive"
+                  />
+                  <p>
+                    Electronic gadgets & all items are good for quality and
+                    price. I recommend to all my friends to visit the site and
+                    get quality products.
+                  </p>
+                  <h4>Robert</h4>
+                </div>
+              </div>
+            </article>
+            <article style="position: absolu0te; width: 100%; opacity: 0">
+              <div class="banner-wrap">
+                <div class="w3agile_special_deals_grid_left_grid1">
+                  <img
+                    src="{% static 'images/t3.png'%}"
+                    alt=" "
+                    class="img-responsive"
+                  />
+                  <p>
+                    I just love the site. All products are very good in quality
+                    and also good price. Thanks to make my life easy and
+                    styled!!!
+                  </p>
+                  <h4>Rosy</h4>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        <script src="{% static 'js/jquery.wmuSlider.js' %}"></script>
+        <script>
+          $(".example1").wmuSlider();
+        </script>
+      </div>
+      <div class="col-md-5 w3agile_special_deals_grid_right">
+        <img
+          src="/media/{{eimg}}"
+          alt="No Image"
+          style="height: 600px; opacity: 0.9"
+          class="img-responsive"
+        />
+        <div class="w3agile_special_deals_grid_right_pos">
+          <h4>{{epnm}} <span>Special</span></h4>
+          <h5>save up <span>to</span> {{eoff}}%</h5>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<!-- //special-deals -->
+<!-- new-products -->
+<div class="new-products">
+  <div class="container">
+    <h3>New Products</h3>
+    <div class="agileinfo_new_products_grids">
+      {% for x in lp %}
+      <div class="col-md-3 agileinfo_new_products_grid">
+        <div class="agile_ecommerce_tab_left agileinfo_new_products_grid1">
+          <div class="hs-wrapper hs-wrapper1">
+            <img
+              src="/media/{{x.photo}}"
+              alt=" "
+              style="height: 90%; width: 100%"
+              class="img-responsive"
+            />
+            <img
+              src="/media/{{x.photo}}"
+              alt=" "
+              style="height: 90%; width: 100%"
+              class="img-responsive"
+            />
+            <img
+              src="/media/{{x.photo}}"
+              alt=" "
+              style="height: 90%; width: 100%"
+              class="img-responsive"
+            />
+            <img
+              src="/media/{{x.photo}}"
+              alt=" "
+              style="height: 90%; width: 100%"
+              class="img-responsive"
+            />
+            <img
+              src="/media/{{x.photo}}"
+              alt=" "
+              style="height: 90%; width: 100%"
+              class="img-responsive"
+            />
+            <div class="w3_hs_bottom w3_hs_bottom_sub">
+              <ul>
+                <li>
+                  <a
+                    href="#"
+                    data-toggle="modal"
+                    data-target="#myModal"
+                    onclick="myfun('{{x.id}}')"
+                    ><span
+                      class="glyphicon glyphicon-eye-open"
+                      aria-hidden="true"
+                    ></span
+                  ></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <h5>
+            <a href="{% url 'myapp:singleproduct'%}?singlep={{x.id}}"
+              >{{x.product_name}}</a
+            >
+          </h5>
+          <div class="simpleCart_shelfItem">
+            <p>
+              <span>&#8377;{{x.price}}</span>
+              <i class="item_price">&#8377; {{x.sale_price}}</i>
+            </p>
+            <form action="{% url 'myapp:cart' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="add" value="1" />
+              <input
+                type="hidden"
+                name="w3ls_item"
+                value="{{x.product_name}}"
+              />
+              <input type="hidden" name="amount" value="{{x.sale_price}}" />
+              <input type="hidden" name="item_id" value="{{x.id}}" />
+              <button type="submit" class="w3ls-cart">Add to cart</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<!-- //new-products -->
+<!-- top-brands -->
+<div class="top-brands">
+  <div class="container">
+    <h3>Top Brands</h3>
+    <div class="sliderfig">
+      <ul id="flexiselDemo1">
+        {% for i in brands %}
+        <li>
+          <img
+            src="/media/{{i.brand_logo}}"
+            alt=" "
+            style="height: 100px"
+            class="img-responsive"
+            style="display: inline"
+          />
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <script type="text/javascript">
+      $(window).load(function () {
+        $("#flexiselDemo1").flexisel({
+          visibleItems: 4,
+          animationSpeed: 1000,
+          autoPlay: true,
+          autoPlaySpeed: 3000,
+          pauseOnHover: true,
+          enableResponsiveBreakpoints: true,
+          responsiveBreakpoints: {
+            portrait: {
+              changePoint: 480,
+              visibleItems: 1,
+            },
+            landscape: {
+              changePoint: 640,
+              visibleItems: 2,
+            },
+            tablet: {
+              changePoint: 768,
+              visibleItems: 3,
+            },
+          },
+        });
+      });
+    </script>
+    <script
+      type="text/javascript"
+      src="{% static 'js/jquery.flexisel.js'%}"
+    ></script>
+  </div>
+</div>
+<!-- //top-brands -->
+{% endblock %}

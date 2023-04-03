@@ -1,0 +1,85 @@
+{% extends "dashboard.html" %} {% load static%} {% block style %}
+<link
+  rel="stylesheet"
+  href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"
+/>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}" />
+<link rel="stylesheet" href="{% static 'mystyle.css'%}" />
+<style>
+  .ab {
+    border: 1px solid black !important;
+  }
+  .cover {
+    height: 200px;
+    background: url('{% static "images/cover.jpeg"%}');
+    width: 100%;
+  }
+</style>
+{% endblock %} {% block content %}
+
+<div class="row cover">
+  <div class="col-md-12" style="background: rgba(0, 0, 0, 0.6)">
+    <h2
+      class="text-center text-light font-weight-bold"
+      style="line-height: 150px"
+    >
+      {{pp.subtitle}} {{pp.first_name}}
+    </h2>
+    <div
+      style="
+        height: 150px;
+        width: 150px;
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        border: 2px solid #ff5063;
+        border-radius: 50%;
+        padding: 5px;
+      "
+    >
+      <img
+        src="/media/{{pp.profile_pic}}"
+        height="100%"
+        width="100%"
+        class="rounded-circle"
+      />
+    </div>
+  </div>
+</div>
+<div class="row py-4 mt-5">
+  <div class="col-md-12">
+    <h2>Details</h2>
+    <div style="height: 2px; width: 100px; background: #ff5063"></div>
+    <table class="table table-striped mt-4 table-hover">
+      <tbody>
+        <tr>
+          <th>Full Name</th>
+          <td>{{pp.subtitle}} {{pp.first_name}}</td>
+        </tr>
+        <tr>
+          <th>User ID</th>
+          <td>{{pp.id}}</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>{{pp.username}}</td>
+        </tr>
+        <tr>
+          <th>Gender</th>
+          <td>{% if i.subtitle is Miss %}Female{% else %} Male{% endif %}</td>
+        </tr>
+        <tr>
+          <th>Address</th>
+          <td>{{pp.address}}</td>
+        </tr>
+        <tr>
+          <th>Registered On</th>
+          <td>{{pp.registered_on}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'dashboard.html'%}
+{% block content %}
+<style>
+    label,::placeholder{
+        color:gray !important;
+    }
+
+</style>
+<div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto p-5" style="background:#fff;">
+                {% if status %}
+                    <p class='alert alert-success m-3'>
+                        <i class='fas fa-check'></i> {{status}}</p>
+                {% endif %}
+                <h2>Change Profile</h2>
+                <div style='height:2px;width:100px;background:#ff5063'></div>
+                <p class='my-1'>
+                    Fill your details here. If you change your email, use updated email for further loggin in.
+                </p>
+                <form action="{% url 'myapp:change_profile' %}" method="post" class='mt-4'>
+                    {% csrf_token %}
+                    <input type="hidden" name='id' value='{{pp.id}}'>
+                    <input type="hidden" name='custid' value='{{pp.custid}}'>
+                    <div class='form-group'>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Subtitle</label>
+                                <input name='subtitle' placeholder="{{pp.subtitle}}" type="text" class="form-control"/>
+                            </div>
+                            <div class="col-md-9">
+                                <label>Name</label>
+                                <input placeholder="{{pp.first_name}}"t type="text" class="form-control" name="name" />
+                            </div>
+                        </div>
+                    </div>
+                   <div class='form-group'>
+                        <label>Email</label>
+                        <input placeholder="{{pp.username}}" type="email" class="form-control" name="email" />
+                   </div>
+                    <div class='form-group'>
+                        <label for="">Address</label>
+                        <textarea placeholder="{{pp.address}}" class="form-control" name="address"></textarea>
+                    </div>
+                    <div class='form-group'>
+                        <input type="submit" class="btn btn-block text-light" style='border-radius:20px;background:#ff5063;'/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

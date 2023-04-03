@@ -1,0 +1,39 @@
+{% extends "base.html"%} {% load static%} {% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6" style="padding: 40px; margin-left: 24%">
+      <div
+        style="
+          height: 300px;
+          width: 100%;
+          border: 1px solid black;
+          padding: 50px;
+          border-radius: 5px;
+        "
+      >
+        {% if status %} {{status}}
+        <a href="{% url 'index'%}">Go Ho Homepage</a>
+        {% else %}
+        <div class="row">
+          <div class="col-md-4">
+            <h2 style="color: green; font-size: 100px">
+              <i class="far fa-check-circle"></i>
+            </h2>
+          </div>
+          <div class="col-md-8">
+            <h2 style="margin-top: 10%">Order Success!!!</h2>
+          </div>
+          <div class="col-md-12">
+            <p class="text-success text-center" style="color: green">
+              Hello {{user.username}} Your order with Txn No: {{txn_id}}
+              received successfully!!!
+            </p>
+            <small>Thanks for choosing Electronic Store for shopping</small>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

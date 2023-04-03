@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block body %}
+
+{% if status %}
+<script>
+alert('Thanks Mr./Miss {{name}} for your feedback!!! It is really beneficial for us!!!');
+</script>
+{% endif %}
+<!-- banner -->
+<div class="banner banner10">
+    <div class="container">
+        <h2>Contact Us</h2>
+    </div>
+</div>
+<!-- //banner -->    
+<!-- breadcrumbs -->
+<div class="breadcrumb_dress">
+    <div class="container">
+        <ul>
+            <li><a href="{% url 'index' %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a> <i>/</i></li>
+            <li>Contact Us</li>
+        </ul>
+    </div>
+</div>
+<!-- //breadcrumbs --> 
+<!-- mail -->
+<div class="mail">
+    <div class="container">
+        <h3>Contact Us</h3>
+        <div class="agile_mail_grids">
+            <div class="col-md-5 contact-left">
+                <h4>Address</h4>
+                <p>#C-86, Phase 7, Industrial Area, Sector 74, <br/>      
+                    <span>SAS Nagar, Punjab 160055</span></p>
+                <ul>
+                    <li>Free Phone :+91-8283828598 </li>
+                    <li>Telephone :+91-7087425488</li>
+                    <li><a href="">info@sachtechsolution.com</a></li>
+                </ul>
+            </div>
+            <div class="col-md-7 contact-left">
+                <h4>Contact Form</h4>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="Name" placeholder="Your Name" required="" minlength="3" pattern="[A-Za-zs\]+" title="Must Contain Character Only With No Spaces">
+                    <input type="email" name="Email" placeholder="Your Email" required="">
+                    <input type="text" name="Telephone" placeholder="Telephone No" required="" min="1000000000" max="9999999999">
+                    <textarea name="message" placeholder="Message..." required=""></textarea>
+                    <input type="submit" value="Submit" >
+                </form>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+
+        <div class="contact-bottom">
+            <iframe height='250' src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13720.221241693445!2d76.6859110243319!3d30.71684544048498!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fee5c15850793%3A0x462f369a90d12231!2sSachTech+Solution!5e0!3m2!1sen!2sin!4v1550405500684" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

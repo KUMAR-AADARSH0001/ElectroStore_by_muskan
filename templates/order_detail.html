@@ -1,0 +1,53 @@
+{% extends "dashboard.html" %} {% load static%} {% block style %}
+<link
+  rel="stylesheet"
+  href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"
+/>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}" />
+<link rel="stylesheet" href="{% static 'mystyle.css'%}" />
+<style>
+  .ab {
+    border: 1px solid black !important;
+  }
+</style>
+{% endblock %} {% block content %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}" />
+<h2 class="pt-5">Order Details</h2>
+<div style="height: 2px; width: 100px; background: #ff5063"></div>
+<h5 style="margin-top: 10px; margin-bottom: 10px">
+  <span>All {{sz}} products</span>
+</h5>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Sr. No.</th>
+      <th>Product</th>
+      <th>Product Name</th>
+      <th>Product Price</th>
+      <th>Quantity</th>
+      <th>Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in products %}
+    <tr>
+      <td>{{i.sr}}</td>
+      <td>
+        <a href="/media/{{i.photo}}"
+          ><img
+            src="/media/{{i.photo}}"
+            style="height: 100px; width: 100px"
+            alt=""
+        /></a>
+      </td>
+      <td>{{i.pname}}</td>
+      <td>{{i.price}}</td>
+      <td>{{i.quantity}}</td>
+      <td>{{i.totalprice}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

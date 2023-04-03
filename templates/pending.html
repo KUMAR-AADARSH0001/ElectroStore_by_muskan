@@ -1,0 +1,48 @@
+{% extends "dashboard.html" %} {% load static%} {% block style %}
+<link
+  rel="stylesheet"
+  href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"
+/>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}" />
+<link rel="stylesheet" href="{% static 'mystyle.css'%}" />
+<style>
+  .ab {
+    border: 1px solid black !important;
+  }
+</style>
+{% endblock %} {% block content %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}" />
+<h2 class="py-5">Pending Orders</h2>
+<table class="table table-striped table-hover table-bordered" id="myTable">
+  <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>Total Price</th>
+      <th>Received On</th>
+      <th>Processed On</th>
+      <th>View Items</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in pending_orders %}
+    <tr>
+      <td>{{i.id}}</td>
+      <td>{{i.amount}}</td>
+      <td>{{i.received_on}}</td>
+      <td>{{i.changed_on}}</td>
+      <td>
+        <a href="{% url 'myapp:order_detail'%}?id={{i.id}}"
+          ><button id="" class="btn btn-sm btn-primary">View</button></a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+  $(function () {
+    $("#myTable").DataTable();
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends "base.html" %} {% load static %} {% block body %}
+<!-- banner -->
+<div class="banner banner10">
+  <div class="container">
+    <h2>About Us</h2>
+  </div>
+</div>
+<!-- //banner -->
+<!-- breadcrumbs -->
+<div class="breadcrumb_dress">
+  <div class="container">
+    <ul>
+      <li>
+        <a href="{% url 'index'%}"
+          ><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+          Home</a
+        >
+        <i>/</i>
+      </li>
+      <li>About Us</li>
+    </ul>
+  </div>
+</div>
+<!-- //breadcrumbs -->
+<!-- about -->
+<div class="about">
+  <div class="container">
+    <div class="w3ls_about_grids">
+      <div class="col-md-6 w3ls_about_grid_left">
+        <p>
+          Cheap deals and better prices are available online, because products
+          come to you direct from the manufacturer or seller without involving
+          middlemen.
+        </p>
+        <div class="col-xs-2 w3ls_about_grid_left1">
+          <span
+            class="glyphicon glyphicon-new-window"
+            aria-hidden="true"
+          ></span>
+        </div>
+        <div class="col-xs-10 w3ls_about_grid_left2">
+          <p>
+            Admin module is basically for the owner of the system. Admin of
+            website can login and help the Users. It can manage site content.
+            Admin can edit, delete Pages and Comments. It also manages users of
+            website. Admin can approve or reject the privileges. Admin can add
+            or delete the products from the store. But the main function of this
+            module is to handle security of this system. Different types of
+            authentication and authorization process is performed for this
+            purpose.
+          </p>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-2 w3ls_about_grid_left1">
+          <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+        </div>
+        <div class="col-xs-10 w3ls_about_grid_left2">
+          <p>
+            You get to try things on in the comfort of your own home. It
+            comprises of two users the one who sells its products & other is the
+            buyer. The seller & the buyer must have username and password to
+            login into website. The seller must register itself in order to make
+            its products visible to the buyer. The buyer can only make a final
+            purchase if it is registered and has all the information stored in
+            its profile.
+          </p>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="col-md-6 w3ls_about_grid_right">
+        <img
+          src="{% static 'images/52.jpg' %}"
+          alt=" "
+          class="img-responsive"
+        />
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<!-- //about -->
+<!-- team -->
+<div class="team">
+  <div class="container">
+    <h3>Meet Our Team</h3>
+    <div class="wthree_team_grids">
+      <div class="col-md-3 wthree_team_grid">
+        <img src="{% static 'images/t4.png'%}" alt=" " class="img-responsive" />
+        <h4>Smith Allen <span>Manager</span></h4>
+        <div class="agileits_social_button">
+          <!-- <ul>
+                        <li><a href="#" class="facebook"> </a></li>
+                        <li><a href="#" class="twitter"> </a></li>
+                        <li><a href="#" class="google"> </a></li>
+                        <li><a href="#" class="pinterest"> </a></li>
+                    </ul> -->
+        </div>
+      </div>
+      <div class="col-md-3 wthree_team_grid">
+        <img src="{% static 'images/t5.png'%}" alt=" " class="img-responsive" />
+        <h4>Laura James <span>Designer</span></h4>
+        <div class="agileits_social_button">
+          <!-- <ul>
+                        <li><a href="#" class="facebook"> </a></li>
+                        <li><a href="#" class="twitter"> </a></li>
+                        <li><a href="#" class="google"> </a></li>
+                        <li><a href="#" class="pinterest"> </a></li>
+                    </ul> -->
+        </div>
+      </div>
+      <div class="col-md-3 wthree_team_grid">
+        <img src="{% static 'images/t6.png'%}" alt=" " class="img-responsive" />
+        <h4>Crisp Doe <span>Director</span></h4>
+        <div class="agileits_social_button">
+          <!-- <ul>
+                        <li><a href="#" class="facebook"> </a></li>
+                        <li><a href="#" class="twitter"> </a></li>
+                        <li><a href="#" class="google"> </a></li>
+                        <li><a href="#" class="pinterest"> </a></li>
+                    </ul> -->
+        </div>
+      </div>
+      <div class="col-md-3 wthree_team_grid">
+        <img src="{% static 'images/t7.png'%}" alt=" " class="img-responsive" />
+        <h4>Linda Rosy <span>Quality Checker</span></h4>
+        <div class="agileits_social_button">
+          <!-- <ul>
+                        <li><a href="#" class="facebook"> </a></li>
+                        <li><a href="#" class="twitter"> </a></li>
+                        <li><a href="#" class="google"> </a></li>
+                        <li><a href="#" class="pinterest"> </a></li>
+                    </ul> -->
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <p>
+        a team member could be one of several institutional investors trading
+        the asset markets together, or a business person working closely with
+        others within their company.
+      </p>
+    </div>
+  </div>
+</div>
+<!-- //team -->
+<!-- team-bottom -->
+<div class="team-bottom">
+  <div class="container">
+    <h3>Are You Ready For Deals? Flat <span>30% Offer </span>on Mobiles</h3>
+    <p>
+      Exclusive Electronics Deals..!!Start here Sign in and see... Top deals in
+      electronic accessories. All Available here
+    </p>
+    <a href="{% url 'myapp:showproducts' %}">Shop Now</a>
+  </div>
+</div>
+<!-- //team-bottom -->
+{% endblock %}
