@@ -3,14 +3,12 @@ from django.contrib.auth.models import User
 
 
 class customer(models.Model):
-    gender_choices = (
-        ('Mr.', 'Mr.'),
-        ('Miss', 'Miss')
-    )
-    subtitle = models.CharField(choices=gender_choices, max_length=100)
+    Gender = (("MALE", "MALE"),
+              ("FEMALE", "FEMALE"),
+              ("NOT DEFINE", "NOT DEFINE"),)
+    subtitle = models.CharField(choices=Gender, max_length=100)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_pic = models.FileField(upload_to='profiles/%Y/%m/%d', blank=True)
-    address = models.TextField(null=True)
     registered_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

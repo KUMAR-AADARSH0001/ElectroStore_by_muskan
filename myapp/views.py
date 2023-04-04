@@ -56,7 +56,7 @@ def getloginuser(id):
         'first_name': ruser.first_name,
         'username': ruser.username,
         'subtitle': cust.subtitle,
-        'address': cust.address,
+        # 'address': cust.address,
         'profile_pic': cust.profile_pic,
         'custid': cust.id,
         'registered_on': cust.registered_on,

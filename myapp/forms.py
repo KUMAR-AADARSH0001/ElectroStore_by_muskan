@@ -4,6 +4,20 @@ from myapp.models import customer
 from django.contrib.auth.models import User
 
 
+class userform(forms.ModelForm):
+
+    class Meta():
+        model = User
+        fields = ('first_name', 'username', 'password')
+        labels = {
+            'first_name': 'Name',
+            'username': 'Email',
+        }
+        widgets = {
+            'password': forms.PasswordInput()
+        }
+
+
 class UserLoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField()
